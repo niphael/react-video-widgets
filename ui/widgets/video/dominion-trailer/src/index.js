@@ -1,2 +1,2 @@
 import './index.css';
-import './DominionTrailerElement';
+import './DominionTrailerElement.js';
