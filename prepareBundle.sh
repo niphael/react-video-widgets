@@ -33,6 +33,8 @@ function syncResources() {
         echo "- Copying bundle static resources"
         syncFiles "$widgetFolder/build/static" bundle/resources 2>/dev/null
         syncFiles "$widgetFolder/build/static" "bundle/$widgetFolder/resources" 2>/dev/null
+        syncFiles "$widgetFolder/build/video" bundle/resources/static 2>/dev/null
+        syncFiles "$widgetFolder/build/video" "bundle/$widgetFolder/resources/static" 2>/dev/null
     else
         echo " > no build/static folder found for $widgetFolder"
     fi
@@ -42,10 +44,13 @@ function createFolderTree() {
     local widgetFolder="$1"
 
     echo "- Creating folder structure for $widgetFolder"
-    mkdir -p bundle/"$widgetFolder"/resources/static/{js,css}
+    mkdir -p bundle/"$widgetFolder"/resources/static/{js,css,video}
 
     # Copy bundle metadata and template
     cp "$widgetFolder"/bundle/* bundle/"$widgetFolder"/
+
+    # Copying video for widgets
+    cp -r "$widgetFolder"/build/static/video/*.mp4 bundle/"$widgetFolder"/resources/static/video
 
     # Copying resources for widgets
     cp -r "$widgetFolder"/build/static/js/*.js bundle/"$widgetFolder"/resources/static/js
@@ -170,7 +175,7 @@ if [ $HAS_WIDGETS -eq 0 ]; then
     echo "Generating the bundle folder tree for the micro-frontends"
     echo ""
     find "$WIDGET_FOLDER" -maxdepth 2 -mindepth 2 -type d -not -path "*utils*" -exec bash -c 'syncResources "$@"' bash {} \;
-    mkdir -p bundle/resources/static/{js,css}
+    mkdir -p bundle/resources/static/{js,css,video}
     echo ""
 
     # #Fetch the top level service name from the pom and use this as the context directory for the publishing of assets specific to the project when building the bundle
