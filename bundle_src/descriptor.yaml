@@ -1,0 +1,5 @@
+code: react-video-widgets
+description: React Video Wigdets Collection
+components:
+  widgets:
+    - ui/widgets/video/dominion-trailer/dominion-trailer-descriptor.yaml
